@@ -1,21 +1,31 @@
-export const Card = ({ currentCard }) => {
-  const { id, term, translation } = currentCard;
-  const showTerm = Math.random() * 2 > 1;
-  const showFirst = showTerm ? term : translation;
-  let showSecond = '';
+import { useState } from "react";
+import { StyledAnswer, StyledCard, StyledQuestion, StyledShowAnswer } from "./Card.styled";
+import { StyledButton } from "../Common/Common.styled";
 
-  const showAnswer = () => {
-    showSecond = showTerm ? translation : term;
+const showTerm = Math.random() * 2 > 1;
+
+export const Card = ({ currentCard, doNextCard }) => {
+  const { term, translation } = currentCard;
+  const questionText = showTerm ? term : translation;
+  const answerText = showTerm ? translation : term;
+  const [answerShown, setAswerShown] = useState(false);
+
+  const doShowAnswer = () => {
+    if (!answerShown) {
+      setAswerShown(true);
+    } else {
+      console.log('next')
+      doNextCard();
+    }
   };
 
   return (
-    <div class="card">
-      <p class="text question">{showFirst}</p>
-      <p class="text answer">{showSecond}</p>
-
-      <button type="submit" onClick={showAnswer}>
-        Відповідь
-      </button>
-    </div>
+    <StyledCard onClick={doShowAnswer}>
+      <StyledQuestion>{questionText}</StyledQuestion>
+      <StyledAnswer>{answerShown ? answerText : <StyledShowAnswer>показати відповідь...</StyledShowAnswer>}</StyledAnswer>
+{/* 
+      {answerShown || <StyledButton type="button" onClick={doShowAnswer}>
+      </StyledButton>} */}
+    </StyledCard>
   );
 };

@@ -1,15 +1,10 @@
+import { useState } from 'react';
 import { Card } from './Card/Card';
+import { StyledButton } from './Common/Common.styled';
 
 export const App = () => {
-  const generateNewIdx = () => {
-    return Math.floor(Math.random() * dictionary.length);
-  };
 
-  const generateNewCard = () => {
-    return dictionary[generateNewIdx()];
-  };
-
-  const dictionary = [
+  const [dictionary, setDictionary] = useState([
     {
       id: 0,
       term: 'könen',
@@ -18,7 +13,7 @@ export const App = () => {
     {
       id: 1,
       term: 'dürfen',
-      translation: 'могтп (мати право)',
+      translation: 'могти (мати право, дозвіл)',
     },
     {
       id: 2,
@@ -28,7 +23,7 @@ export const App = () => {
     {
       id: 3,
       term: 'möchten',
-      translation: 'хотіти (ввічлива форма)',
+      translation: 'хотів би',
     },
     {
       id: 4,
@@ -50,27 +45,36 @@ export const App = () => {
       term: 'lieben',
       translation: 'люблю',
     },
-  ];
-
+  ]);
+  
+  const generateNewIdx = () =>  Math.floor(Math.random() * dictionary.length);
+  const generateNewCard = () => dictionary[generateNewIdx()];
   let currentCard = generateNewCard();
 
-  console.log(currentCard);
+  const doNextCard = () => {
+    currentCard = generateNewCard();
+    window.location.reload(true);
+  }
 
   return (
     <div
       style={{
+        margin: 0,
+        padding:0,
         height: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 40,
         color: '#010101',
+        background: '#EEEEEE'
       }}
     >
-      <Card currentCard={currentCard} />
-      <button type="button" onClick={generateNewCard}>
-        Наступна
-      </button>
+      <Card currentCard={currentCard} doNextCard={doNextCard} />        
+      <StyledButton type="button" onClick={doNextCard} style={{marginTop:'50px'}}>
+        Далі
+      </StyledButton>
     </div>
   );
 };
