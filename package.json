@@ -2,14 +2,17 @@
   "name": "react-homework-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://aegisvp.github.io/______repo_name______/",
+  "homepage": "https://aegisvp.github.io/",
+  "dev-dependecies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  },
   "dependencies": {
     "modern-normalize": "^1.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-router": "^6.14.1",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
-    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.11",
     "styled-system": "^5.1.5"
   },

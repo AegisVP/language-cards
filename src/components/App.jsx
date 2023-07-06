@@ -1,80 +1,19 @@
-import { useState } from 'react';
-import { Card } from './Card/Card';
-import { StyledButton } from './Common/Common.styled';
+import { Suspense } from 'react';
+import { Route, Routes } from 'react-router';
+import { CommonLayout } from './CommonLayout/CommonLayout';
+import { MainPage } from 'pages/MainPage';
 
 export const App = () => {
-
-  const [dictionary, setDictionary] = useState([
-    {
-      id: 0,
-      term: 'könen',
-      translation: 'могти (вміти)',
-    },
-    {
-      id: 1,
-      term: 'dürfen',
-      translation: 'могти (мати право, дозвіл)',
-    },
-    {
-      id: 2,
-      term: 'wollen',
-      translation: 'хотіти (дуже сильно)',
-    },
-    {
-      id: 3,
-      term: 'möchten',
-      translation: 'хотів би',
-    },
-    {
-      id: 4,
-      term: 'sollen',
-      translation: 'повинен (рекомендація)',
-    },
-    {
-      id: 5,
-      term: 'müssen',
-      translation: 'повинен (мусить)',
-    },
-    {
-      id: 6,
-      term: 'mögen',
-      translation: 'подобається',
-    },
-    {
-      id: 7,
-      term: 'lieben',
-      translation: 'люблю',
-    },
-  ]);
-  
-  const generateNewIdx = () =>  Math.floor(Math.random() * dictionary.length);
-  const generateNewCard = () => dictionary[generateNewIdx()];
-  let currentCard = generateNewCard();
-
-  const doNextCard = () => {
-    currentCard = generateNewCard();
-    window.location.reload(true);
-  }
+  const users = [{ id: 0, name: 'Влад' }, { id: 1, name: 'Еміль' }, { id: 2, name: 'Толік' }];
 
   return (
-    <div
-      style={{
-        margin: 0,
-        padding:0,
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-        background: '#EEEEEE'
-      }}
-    >
-      <Card currentCard={currentCard} doNextCard={doNextCard} />        
-      <StyledButton type="button" onClick={doNextCard} style={{marginTop:'50px'}}>
-        Далі
-      </StyledButton>
-    </div>
+    <Suspense fallback={<p>Please wait, loading...</p>}>
+      <Routes>
+        <Route path="/" element={<CommonLayout userList={users} />}>
+          <Route index element={<MainPage />} />
+          <Route path=":user" element={<MainPage />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
