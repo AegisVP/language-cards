@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { MONGODB_HOST, PORT } = require("./config");
 // const { allConstants } = require('./utils');
 

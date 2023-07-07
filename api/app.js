@@ -1,5 +1,5 @@
 const express = require("express");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 // const cors = require('cors');
 // const swaggerUi = require('swagger-ui-express');
 const path = require("path");
@@ -50,8 +50,8 @@ var corsOptionsDelegate = function (req, callback) {
 // app.use(cors());
 // app.use('/ishealthy', heathCheck);
 
-const formatsLogger = CROSS_ENV === "development" ? "dev" : "short";
-app.use(morgan(formatsLogger));
+// const formatsLogger = CROSS_ENV === "development" ? "dev" : "short";
+// app.use(morgan(formatsLogger));
 
 // app.get('/api', (_, res) => res.redirect('/api/docs'));
 // app.use('/api/docs', swaggerUi.serve);
@@ -63,8 +63,8 @@ app.use(express.json());
 // app.use('/api/weighings', [authService, weighingsRouter]);
 // app.use('/api/constants', [authService, constantsRouter]);
 
-app.get("/*", express.static("../web/build"));
-app.get("*", (_, res) => res.sendFile(path.resolve("../build/web/index.html")));
+app.get("/*", express.static("../build"));
+app.get("*", (_, res) => res.sendFile(path.resolve("../build/index.html")));
 app.use((_, res) => res.status(404).json({ message: "Not found" }));
 
 app.use((err, req, res, next) => {
