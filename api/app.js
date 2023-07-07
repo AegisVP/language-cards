@@ -4,11 +4,12 @@ const express = require("express");
 // const swaggerUi = require('swagger-ui-express');
 const path = require("path");
 
-const { CROSS_ENV } = require("./config");
+// const { CROSS_ENV } = require("./config");
+const { constantsRouter } = require("./routes");
 // const { usersRouter, weighingsRouter, constantsRouter } = require('./routes');
 // const { authService } = require('./middlewares');
 // const swaggerDocument = require('./swagger.json');
-// const { heathCheck } = require('./controller');
+const { heathCheck } = require("./controller");
 
 const app = express();
 
@@ -61,7 +62,7 @@ app.use(express.json());
 
 // app.use('/api/user', usersRouter);
 // app.use('/api/weighings', [authService, weighingsRouter]);
-// app.use('/api/constants', [authService, constantsRouter]);
+app.use("/api/constants", [constantsRouter]);
 
 app.get("/*", express.static("../build"));
 app.get("*", (_, res) => res.sendFile(path.resolve("../build/index.html")));

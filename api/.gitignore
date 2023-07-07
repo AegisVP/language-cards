@@ -12,6 +12,7 @@ nodemon.json
 
 # testing
 /coverage
+__*/*
 __*.*
 
 # production
