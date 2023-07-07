@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 module.exports = {
   MONGODB_HOST: process.env.MONGODB_HOST,
   PORT: process.env.PORT || 8088,
