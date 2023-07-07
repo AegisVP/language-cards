@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const { MONGODB_HOST, PORT } = require("./config");
-// const { allConstants } = require('./utils');
+const { allConstants } = require("./utils");
 
 async function connectMongoose() {
   try {
@@ -33,7 +33,7 @@ async function connectMongoose() {
 
 async function main() {
   try {
-    // allConstants.updateAll();
+    allConstants.updateAll();
     // connectMail();
     connectMongoose();
 
