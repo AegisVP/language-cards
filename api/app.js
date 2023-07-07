@@ -47,7 +47,7 @@ var corsOptionsDelegate = function (req, callback) {
 // https://expressjs.com/en/resources/middleware/cors.html
 */
 
-app.use(cors());
+// app.use(cors());
 // app.use('/ishealthy', heathCheck);
 
 const formatsLogger = CROSS_ENV === "development" ? "dev" : "short";
