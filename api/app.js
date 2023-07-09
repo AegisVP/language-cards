@@ -1,11 +1,11 @@
 const express = require("express");
-// const morgan = require("morgan");
-// const cors = require('cors');
+const morgan = require("morgan");
+const cors = require("cors");
 // const swaggerUi = require('swagger-ui-express');
 const path = require("path");
 
-// const { CROSS_ENV } = require("./config");
-const { constantsRouter } = require("./routes");
+const { CROSS_ENV } = require("./config");
+const { constantsRouter, dictionaryRouter, translationRouter } = require("./routes");
 // const { usersRouter, weighingsRouter, constantsRouter } = require('./routes');
 // const { authService } = require('./middlewares');
 // const swaggerDocument = require('./swagger.json');
@@ -48,11 +48,11 @@ var corsOptionsDelegate = function (req, callback) {
 // https://expressjs.com/en/resources/middleware/cors.html
 */
 
-// app.use(cors());
-// app.use('/ishealthy', heathCheck);
+app.use(cors());
+app.use("/ishealthy", heathCheck);
 
-// const formatsLogger = CROSS_ENV === "development" ? "dev" : "short";
-// app.use(morgan(formatsLogger));
+const formatsLogger = CROSS_ENV === "development" ? "dev" : "short";
+app.use(morgan(formatsLogger));
 
 // app.get('/api', (_, res) => res.redirect('/api/docs'));
 // app.use('/api/docs', swaggerUi.serve);
@@ -63,6 +63,8 @@ app.use(express.json());
 // app.use('/api/user', usersRouter);
 // app.use('/api/weighings', [authService, weighingsRouter]);
 app.use("/api/constants", [constantsRouter]);
+app.use("/api/dictionary", [dictionaryRouter]);
+app.use("/api/translation", [translationRouter]);
 
 app.get("/*", express.static("../build"));
 app.get("*", (_, res) => res.sendFile(path.resolve("../build/index.html")));

@@ -4,7 +4,7 @@ class DbConstants {
   constructor() {
     this.usersList = [];
     this.translationsList = [];
-    this.userDictionary = [];
+    this.dictionary = [];
   }
 
   async init() {
@@ -19,11 +19,11 @@ class DbConstants {
     const db = "language-cards";
     const usersCursor = client.db(db).collection("users");
     const translationsCursor = client.db(db).collection("translations");
-    const userDictionaryCursor = client.db(db).collection("user-dictionary");
+    const dictionaryCursor = client.db(db).collection("user-dictionary");
 
     this.usersList = await usersCursor.find().toArray();
     this.translationsList = await translationsCursor.find().toArray();
-    this.userDictionary = await userDictionaryCursor.find().toArray();
+    this.dictionaryList = await dictionaryCursor.find().toArray();
 
     console.log("All constants fetched from DB");
 
@@ -33,15 +33,15 @@ class DbConstants {
 
     const usersStream = usersCursor.watch([], options);
     const translationsStream = translationsCursor.watch([], options);
-    const userDictionaryStream = userDictionaryCursor.watch([], options);
+    const dictionaryStream = dictionaryCursor.watch([], options);
 
     usersStream.on("change", (change) => this.assignOneValue("users", change.fullDocument));
     translationsStream.on("change", (change) => this.assignOneValue("translations", change.fullDocument));
-    userDictionaryStream.on("change", (change) => this.assignOneValue("userDictionary", change.fullDocument));
+    dictionaryStream.on("change", (change) => this.assignOneValue("dictionary", change.fullDocument));
   }
 
   assignOneValue(constant, changeDocument) {
-    console.log(`Updated "${constant}" entry "${changeDocument[String(constant).slice(0, -1)]}" from DB`);
+    console.log(`Updated "${constant}" entry "${changeDocument[String(constant).slice(0, -1)] || changeDocument._id}" from DB`);
     this[`${constant}List`] = this[`${constant}List`].map((item) => (String(item._id) === String(changeDocument._id) ? changeDocument : item));
   }
 }
