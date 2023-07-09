@@ -1,43 +1,39 @@
 import { Card } from "components/Card/Card";
 import { StyledButton } from "components/Common/Common.styled";
 import { useEffect, useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getDictionary } from "controller/dictionary";
+import { useParams } from "react-router";
 
-export const MainPage = () => {
-  const userId = parseInt(useParams().user || 0);
-  const [dictionary, setDictionary] = useState(getDictionary(userId));
+export const MainPage = ({ setUserId, dictionary }) => {
+  const paramsUser = useParams().user
+  const localStorageUser = localStorage.getItem('userId');
+  const userId = paramsUser !== undefined ? paramsUser : localStorageUser !== null ? localStorageUser : null;
   const [answerShown, setAnswerShown] = useState(false);
-  const generateNewCard = useCallback(() => dictionary[Math.floor(Math.random() * dictionary.length)],[dictionary]);  
-  const [currentCard, setCurrentCard] = useState(generateNewCard());
+  
+  // eslint-disable-next-line
+  const generateNewCard = useCallback((dict = []) => dict[Math.floor(Math.random() * dict.length)], [dictionary]);  
+  const [currentCard, setCurrentCard] = useState(generateNewCard(dictionary));
 
   const doShowAnswer = () => {
     if (answerShown) doNextCard();
     else setAnswerShown(true);
   };
 
-  const doNextCard = () => {
+  const doNextCard = useCallback(() => {
     setAnswerShown(false);
-    setCurrentCard(generateNewCard());
-  }
-
-  // useEffect(() => {
-  //   setCurrentCard(generateNewCard());
-  // }, []);
+    setCurrentCard(generateNewCard(dictionary));
+  }, [dictionary, generateNewCard]);
 
   useEffect(() => {
-    setDictionary(getDictionary(userId));
-    setAnswerShown(false);
-    setCurrentCard(generateNewCard());
-  }, [userId])
+    doNextCard();
+  }, [doNextCard]);
 
+  useEffect(() => {
+    if (userId !== null) setUserId(userId);
+  }, [userId, setUserId]);
 
-  return (
-    <>
-      <Card currentCard={currentCard} answerShown={answerShown} doShowAnswer={doShowAnswer} />        
-      <StyledButton type="button" onClick={doNextCard} style={{marginTop:'50px'}}>
-        Далі
-      </StyledButton>
-    </>
-  );
+  return (<>
+      {currentCard ? (<>
+          <Card currentCard={currentCard} answerShown={answerShown} doShowAnswer={doShowAnswer} />
+          <StyledButton type="button" onClick={doNextCard} style={{ marginTop: '50px' }}>Далі</StyledButton>
+        </>) : ("Завантажую данні ...")}</>);
 }

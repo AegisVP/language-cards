@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router';
 import { HeaderBar } from 'components/HeaderBar/HeaderBar';
 
-export const CommonLayout = ({userList, currentCard, doNextCard}) => {
+export const CommonLayout = ({userId, usersList}) => {
   return (
     <>
-      <HeaderBar userList={userList} />
+      <HeaderBar userId={userId} usersList={usersList} />
       <main
         style={{
           margin: 0,
@@ -14,7 +14,7 @@ export const CommonLayout = ({userList, currentCard, doNextCard}) => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          fontSize: 40,
+          fontSize: '16px',
           color: '#010101',
           background: '#EEEEEE'
         }}

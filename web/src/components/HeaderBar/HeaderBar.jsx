@@ -1,15 +1,10 @@
-import { useParams } from "react-router";
 import { StyledHeader, StyledHeaderTitle, StyledNavigation, StyledNavigationItem } from "./HeaderBar.styled";
 
-export const HeaderBar = ({ userList = [] }) => {
-  const params = useParams();
-  const userId = params.user === undefined ? (parseInt(localStorage.getItem('userId')) || 0) : (parseInt(params.user) || 0);
-  localStorage.setItem('userId', userId);
-  
+export const HeaderBar = ({ userId = null, usersList = [] }) => {
   return <StyledHeader>
-    <StyledHeaderTitle>{userList.find(user=>user.id===userId).name}</StyledHeaderTitle>
+    <StyledHeaderTitle>{usersList.find(({_id, user})=>_id===userId)?.user || ""}</StyledHeaderTitle>
     <StyledNavigation>
-      {userList.map(user => <StyledNavigationItem key={user.id} to={`/${user.id}`} selected={user.id === userId && 'selected'}>{user.name}</StyledNavigationItem>)}
+      {usersList.length > 0 && usersList.map(({_id, user}) => <StyledNavigationItem key={_id} to={`/${_id}`} selected={_id === userId && 'selected'}>{user}</StyledNavigationItem>)}
     </StyledNavigation>
   </StyledHeader>;
 }
